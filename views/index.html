@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <header
+      class="bg-dark text-light d-flex justify-content-center align-items-center mb-5"
+      style="height: 200px"
+    >
+      <h1 style="font-size: 80px">SwiPro</h1>
+    </header>
+    <main>
+      <div class="container">
+        <div class="card m-5" id="knowledge">
+          <h5 class="card-header">knowledge</h5>
+          <div class="card-body">
+            <form
+              action="/knowledge"
+              id="knowledge-form"
+              class="form-conntrol"
+              method="post"
+            >
+              <textarea
+                type="text-area"
+                name="knowledge"
+                id="knowledge"
+                rows="5"
+                class="form-control p-3 mb-3 width-100 rounded-3"
+              ></textarea>
+              <button type="submit" class="btn btn-dark">update</button>
+            </form>
+          </div>
+        </div>
+        <div class="card m-5" id="ask">
+          <h5 class="card-header">ask</h5>
+          <div class="card-body">
+            <form id="ask-form" method="post">
+              <input
+                type="text"
+                name="ask"
+                id="ask"
+                class="form-control mb-3 border-danger"
+              />
+              <button type="submit" class="btn btn-dark">ask</button>
+            </form>
+          </div>
+        </div>
+        <div class="card m-5" id="output">
+          <h5 class="card-header">output</h5>
+          <div class="card-body" id="result"></div>
+        </div>
+      </div>
+    </main>
+    <script>
+      const knowlegeEL = document.getElementById("knowledge-form");
+      const askEL = document.getElementById("ask-form");
+      const outputEL = document.getElementById("result");
+      knowlegeEL.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const knowledge = knowlegeEL.knowledge.value;
+        const response = await fetch("/knowledge", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({knowledge}),
+        });
+        const data = await response.json();
+        console.log(data);
+        knowlegeEL.knowledge.innerText = data.knowledge;
+      });
+      askEL.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const ask = askEL.ask.value;
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ask}),
+        });
+        const data = await response.json();
+        outputEL.innerText = data.ask;
+      });
+    </script>
+  </body>
+</html>

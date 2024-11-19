@@ -1,0 +1,8 @@
+delicious(cakes)
+delicious(pizza)
+delicious(biriyani)
+spicy(pickles)
+delicious(pickles)
+relishes(priya,coffee)
+likes(priya,cakes):-delicious(cakes)
+likes(prakash,pickles):-delicious(pickles),spicy(pickles)
