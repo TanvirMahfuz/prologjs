@@ -27,5 +27,14 @@ class KnowledgeBase {
     }
     return false;
   }
+  secondOrderCondition(key, value1, value2) {
+    if (this.secondOrderKnowledge[key]) {
+      if (this.secondOrderKnowledge[key][value1]) {
+        if (this.secondOrderKnowledge[key][value1].includes(value2))
+          return true;
+      }
+    }
+    return false;
+  }
 }
 export default KnowledgeBase;

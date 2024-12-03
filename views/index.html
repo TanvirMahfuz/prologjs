@@ -48,7 +48,7 @@
                 type="text"
                 name="ask"
                 id="ask"
-                class="form-control mb-3 border-danger"
+                class="form-control mb-3"
               />
               <button type="submit" class="btn btn-dark">ask</button>
             </form>
@@ -89,6 +89,11 @@
           body: JSON.stringify({ask}),
         });
         const data = await response.json();
+
+        if (data.ask == true) {
+          console.log(data.ask);
+          outputEL.classList.add("border-success");
+        }
         outputEL.innerText = data.ask;
       });
     </script>

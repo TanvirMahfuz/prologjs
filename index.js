@@ -31,6 +31,8 @@ app.post("/knowledge", async (req, res) => {
   knowledgeBase = knowledgeBase.map((knowledge) => knowledge.trim());
   swiPro.train(knowledgeBase);
   knowledgeBase = knowledgeBase.join("\r\n");
+  console.log(swiPro.firstOrderKnowledge);
+  console.log(swiPro.secondOrderKnowledge);
   res.json({knowledgeBase});
 });
 

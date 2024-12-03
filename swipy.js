@@ -14,13 +14,17 @@ class SwiPro extends KnowledgeBase {
   }
   conditionalKnow(s) {
     const [knowledge, condition] = s.split(":-");
-
-    if (condition.includes(",")) {
+    console.log(condition);
+    if (condition.includes("),")) {
       let flag = true;
-      const conditions = condition.split(",");
+      const conditions = condition.split("),");
       for (let con of conditions) {
-        const [key, value] = con.slice(0, -1).split("(");
-        flag = flag && this.firstOrderCondition(key, value);
+        console.log(con + " <-----");
+        const [key, value] = con.split("(");
+        console.log(key);
+        console.log(value);
+        const [value1, value2] = value.split(",");
+        flag = flag && this.firstOrderCondition(key, value1, value2);
         if (!flag) break;
       }
       if (flag) {
@@ -28,14 +32,31 @@ class SwiPro extends KnowledgeBase {
       }
     } else {
       const [key, value] = condition.slice(0, -1).split("(");
-      if (this.firstOrderCondition(key, value)) {
+      if (value.includes(",")) {
+        const [value1, value2] = value.split(",");
+        this.addToSecondOrder(key, value1, value2);
+      }
+      if (!this.firstOrderCondition(key, value)) {
         this.know(knowledge);
       }
     }
   }
   ask(s) {
-    const [key, value] = s.slice(0, -1).split("(");
-    return this.firstOrderCondition(key, value);
+    if (s.includes(":-")) {
+      const [key, value] = s.split(":-");
+      if (this.ask(value)) {
+        this.know(key);
+      }
+      return this.ask(key);
+    } else {
+      const [key, value] = s.slice(0, -1).split("(");
+      console.log(key, value);
+      if (value.includes(",")) {
+        let [value1, value2] = value.split(",");
+        return this.secondOrderCondition(key, value1, value2);
+      }
+      return this.firstOrderCondition(key, value);
+    }
   }
   train(knowledgeBase) {
     console.log(knowledgeBase);
